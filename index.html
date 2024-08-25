@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Fullstack Crypto Marketplace</title>
 </head>
+
 <body>
-    
+
+    <div class="main">
+
+        <div class="global">
+            <p>Coins: <b id="coins-count">14973</b></p>
+            <p>Exchanges: <b id="exchanges-count">1164</b></p>
+            <p>Market Cap: <span><b id="marketCap">$2.297T</b> <span id="marketCapChange">-4.9% <i
+                            class="ri-arrow-down-s-line"></i></span></span></p>
+            <p>24H Vol: <b id="volume">$109.452B</b></p>
+            <p>Dominance: <b id="dominance">BTC 53.0% - ETH 15.6%</b></p>
+        </div>
+
+        <nav>
+            <div class="left-section">
+                <a href="#" class="logo">Logo.</a>
+                <div class="nav-links">
+                    <a href="/index.html" class="active">Home</a>
+                    <a href="/pages/charts.html">Charts</a>
+                    <a href="/pages/search.html">Search</a>
+                    <a href="/pages/about.html">About Us</a>
+                </div>
+            </div>
+            <div class="right-section">
+                <form class="search" id="searchForm">
+                    <i class="ri-search-line"></i>
+                    <input type="text" id="searchInput" placeholder="Search for an asset..." required autocomplete="off">
+                </form>
+                <i id="theme-toggle" class="ri-sun-line"></i>
+            </div>
+        </nav>
+
+    </div>
+
 </body>
+
 </html>

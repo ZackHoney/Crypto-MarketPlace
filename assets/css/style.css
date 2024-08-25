@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root{
+    --background-color: #fff;
+    --background-color-primary: #fff;
+    --background-color-secondary: #EFF2F5;
+
+    --color-white: #fff;
+    --color-black: #000;
+    --border-color: #D4D4D4;
+    --text-secondary: #55626F;
+
+    --chart-light-bg: #fff;
+    --chart-dark-bg: #050505;
+    --chart-light-border: #D4D4D4;
+    --chart-dark-border: #333;
+
+    --links-color: #1565C0;
+}
+
+#dark-theme{
+    --background-color: #050505;
+    --background-color-primary: #0e1218;
+    --background-color-secondary: #1c2025;
+
+    --color-white: #fff;
+    --color-black: #000;
+    --border-color: #1d1f22;
+    --text-secondary: #bebebe;
+
+    --links-color: #1565c0;
+}
