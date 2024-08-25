@@ -153,3 +153,46 @@ nav .left-section .nav-links a:hover{
     color: var(--color-white)
 }
 
+nav .right-section{
+    width: 30%;
+    gap: 20px;
+}
+
+nav .right-section .search{
+    display: flex;
+    align-items: center;
+    background: var(--background-color-secondary);
+    padding: 0 10px;
+    border-radius: 12px;
+    width: 100%;
+}
+
+nav .right-section .search input{
+    padding: 10px 6px;
+    background: var(--background-color-secondary);
+    color: var(--color-white);
+    font-size: 14px;
+}
+
+nav .right-section .search input::placeholder,
+nav .right-section .search i{
+    color: var(--text-secondary);
+}
+
+nav .right-section > i{
+    padding: 8px;
+    background: var(--background-color-secondary);
+    color: var(--color-white);
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+nav .right-section > i.ri-sun-line{
+    transform: rotate(0deg);
+}
+
+nav .right-section > i.ri-moon-line{
+    transform: rotate(360deg);
+}
