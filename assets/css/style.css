@@ -83,6 +83,14 @@ img{
     object-fit: cover;
 }
 
+table tr td img{
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin-right: 6px;
+    border-radius: 12px;
+}
+
 body{
     background: var(--background-color);
     display: flex;
@@ -196,3 +204,10 @@ nav .right-section > i.ri-sun-line{
 nav .right-section > i.ri-moon-line{
     transform: rotate(360deg);
 }
+
+.trending{
+    margin: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
