@@ -91,6 +91,25 @@ table tr td img{
     border-radius: 12px;
 }
 
+table tr td:first-child{
+    border-radius: 12px 0 0 12px;
+}
+
+table tr td:last-child{
+    border-radius: 0 12px 12px 0;
+}
+
+table tr td.rank{
+    padding-left: 10px;
+}
+
+table tr td.name-column{
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 30px;
+}
+
 body{
     background: var(--background-color);
     display: flex;
@@ -211,3 +230,143 @@ nav .right-section > i.ri-moon-line{
     justify-content: space-between;
 }
 
+.trending .coins-wrapper,
+.trending .nfts-wrapper{
+    width: 49%;
+}
+
+.trending h3{
+    color: var(--color-white);
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.trending .coins-wrapper .container,
+.trending .nfts-wrapper .container{
+    background: var(--background-color-primary);
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.trending table,
+.tab-container .tab-content table{
+    width: 100%;
+    border-spacing: 0 20px;
+}
+
+.trending table th,
+.tab-container .tab-content table th{
+    color: var(--color-white);
+    font-weight: 500;
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.trending thead tr:hover{
+    background: transparent !important;
+    cursor: unset !important;
+}
+
+.trending .coins-wrapper table tr,
+.tab-container .tab-content #asset-list table tr{
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.trending table tr td{
+    padding: 5px;
+}
+
+.trending table tr td,
+.tab-container .tab-content table tr td{
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.trending .coins-wrapper table tr:hover,
+.trending .coins-wrapper table tr:hover td.table-fixed-column,
+.tab-container .tab-content #asset-list table tr:hover,
+.tab-container .tab-content #asset-list table tr:hover td.table-fixed-column{
+    background: var(--background-color-secondary);
+}
+
+.trending .coins-wrapper .container .table-fixed-column,
+.trending .nfts-wrapper .container .table-fixed-column{
+    left: -20px;
+}
+
+.table-fixed-column{
+    background: var(--background-color-primary);
+    position: sticky;
+    left: 0;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.spinner{
+    display: none;
+    width: 50px;
+    height: 50px;
+    border: 6px solid var(--text-secondary);
+    border-top: 6px solid var(--background-color-secondary);
+    border-radius: 50%;
+    margin: 10px auto 20px;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.error-message{
+    display: none;
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tab-container{
+    margin: 0 40px;
+    background-color: var(--background-color-primary);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.tab-container .tabs{
+    background: var(--background-color-secondary);
+    display: inline-flex;
+    gap: 20px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.tab-container .tabs .tab-button{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-container .tabs .tab-button i{
+    font-size: 20px;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.tab-container .tabs .tab-button.active,
+.tab-container .tabs .tab-button.active i{
+    color: var(--color-white);
+}
