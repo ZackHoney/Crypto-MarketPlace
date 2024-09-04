@@ -288,7 +288,7 @@ nav .right-section > i.ri-moon-line{
 
 .trending .coins-wrapper table tr:hover,
 .trending .coins-wrapper table tr:hover td.table-fixed-column,
-.tab-container .tab-content #asset-list table tr:hover,
+.tab-container .tab-content #asset-list table .hover:hover,
 .tab-container .tab-content #asset-list table tr:hover td.table-fixed-column{
     background: var(--background-color-secondary);
 }
