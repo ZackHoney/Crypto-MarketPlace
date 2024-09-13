@@ -394,3 +394,33 @@ footer .social-icons{
     gap: 10px;
 }
 
+footer .social-icons a,
+#scrollTop{
+    background: var(--background-color);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+footer .social-icons a:hover,
+#scrollTop:hover{
+    background: var(--links-color);
+}
+
+footer .social-icons a i{
+    font-size: 20px;
+    color: var(--color-white);
+}
+
+#scrollTop{
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    cursor: pointer;
+    background: var(--background-color-secondary);
+    padding: 6px;
+    font-size: 30px;
+}
