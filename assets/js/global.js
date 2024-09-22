@@ -1,3 +1,10 @@
+const coinsCount = document.getElementById('coins-count');
+const exchangesCount = document.getElementById('exchanges-count');
+const marketCap = document.getElementById('marketCap');
+const marketCapChangeElement = document.getElementById('marketCapChange')
+const volume = document.getElementById('volume');
+const dominance = document.getElementById('dominance')
+
 document.addEventListener("DOMContentLoaded", () =>{
     fetchGlobal();
 });
@@ -41,5 +48,6 @@ function fetchGlobal(){
             displayGlobalData(data);
             setLocalStorageData(localStorageKey, globalData);
         })
+        .catch(error =>)
     }
 }
