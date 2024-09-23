@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchData(){
     await Promise.all([
         fetchAndDisplay('https://api.coingecko.com/api/v3/search/trending', ['coins-list', 'nfts-list'], displayTrends, null, 'Trending_Data'),
-        fetchAndDisplay('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per-page=20&page=1&sparkline=true', ['asset-list'], displayTrendCoins, null, 'Crypto_Data'),
+        fetchAndDisplay('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per-page=20&page=1&sparkline=true', ['asset-list'], displayAssets, null, 'Crypto_Data'),
     ])
 }
 
@@ -145,6 +145,8 @@ function displayAssets(data){
     cryptoList.innerHTML = '';
     const table = createTable(['Rank', 'Coin', 'Price', '24H Price', '24H Price %', 'Total Vol', 'Market Cap', 'Last 7 Days'], 1);
 
+    data = data.slice(0, 20);
+
     const sparklineData = [];
     data.forEach(asset => {
         const row = document.createElement('tr');
@@ -170,7 +172,7 @@ function displayAssets(data){
     cryptoList.appendChild(table);
 
     sparklineData.forEach(({ id, sparkline, color}) => {
-        const ctx = document.createElement(`chart-${id}`).getContext('2d');
+        const ctx = document.getElementById(`chart-${id}`).getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -206,4 +208,69 @@ function displayAssets(data){
             }
         });
     });
+}
+
+function displayExchanges(data){
+    const exchangeList = document.getElementById('exchange-list');
+    exchangeList.innerHTML = '';
+    const table = createTable(['Rank', 'Exchange', 'Trust Score', '24H Score', '24H Trade (Normal)', 'Country', 'Website', 'Year'], 1);
+
+    data = data.slice(0, 20);
+
+    data.forEach(exchange => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="rank">${exchange.trust_score_rank}</td>
+            <td class="name-column table-fixed-column"><img src="${exchange.image}" alt="${exchange.name}">${exchange.name}</td>
+            <td>${exchange.trust_score}</td>
+            <td>$${exchange.trade_volume_24h_btc.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3})} BTC</td>
+            <td>$${exchange.trade_volume_24h_btc_normalized.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3})} BTC</td>
+            <td class="name-column">${exchange.country || 'N/A'}</td>
+            <td class="name-column">${exchange.url}</td>
+            <td>${exchange.year_established || 'N/A'}</td>
+        `;
+        table.appendChild(row);
+    });
+    exchangeList.appendChild(table);
+}
+
+function displayCategories(data) {
+    const categoriesList = document.getElementById('category-list');
+    categoriesList.innerHTML = '';
+    const table = createTable(['Top Coins', 'Category', 'Market Cap', '24H Market Cap', '24H Volume'], 1);
+
+    data = data.slice(0, 20);
+
+    data.forEach(category => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${category.top_3_coins.map(coin => `<img src="${coin}" alt="coin">`).join('')}</td>
+            <td class="name-column table-fixed-column">${category.name}</td>
+            <td>$${category.market_cap ? category.market_cap.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3}) : 'N/A'}</td>
+            <td class="${category.market_cap_change_24h >= 0 ? 'green' : 'red'}">${category.market_cap_change_24h ? category.market_cap_change_24h.toFixed(3) : "0"}%</td>
+            <td>$${category.volume_24h ? category.volume_24h.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3}) : 'N/A'}</td>
+        `;
+        table.appendChild(row);
+    });
+    categoriesList.appendChild(table);
+}
+
+function displayCompanies(data) {
+    const companiesList = document.getElementById('company-list');
+    companiesList.innerHTML = '';
+    const table = createTable(['Company', 'Total BTC', 'Entry Value', 'Total Current Value', 'Total %'], 1);
+
+
+    data.companies.forEach(company => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+           <td class="name-column table-fixed-column">${company.name}</td>
+           <td>${company.total_holdings}</td>
+           <td>${company.total_entry_value_usd}</td>
+           <td>${company.total_current_value_usd}</td>
+           <td class="${company.percentage_of_total_supply >= 0 ? 'green' : 'red'}">${company.percentage_of_total_supply}%</td>
+        `;
+        table.appendChild(row);
+    });
+    companiesList.appendChild(table);
 }

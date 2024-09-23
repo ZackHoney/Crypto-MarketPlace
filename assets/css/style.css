@@ -83,6 +83,14 @@ img{
     object-fit: cover;
 }
 
+table {
+    overflow: scroll;
+}
+
+table tr td{
+    white-space: nowrap;
+}
+
 table tr td img{
     width: 32px;
     height: 32px;
@@ -267,7 +275,7 @@ nav .right-section > i.ri-moon-line{
     border-bottom: 1px solid var(--border-color);
 }
 
-.trending thead tr:hover{
+table thead tr:hover{
     background: transparent !important;
     cursor: unset !important;
 }
