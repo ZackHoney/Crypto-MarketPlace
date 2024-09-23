@@ -48,6 +48,49 @@ function fetchGlobal(){
             displayGlobalData(data);
             setLocalStorageData(localStorageKey, globalData);
         })
-        .catch(error =>)
+        .catch(error =>{
+            coinsCount.textContent = 'N/A';
+            exchangesCount.textContent = 'N/A';
+            marketCap.textContent = 'N/A';
+            marketCapChangeElement.textContent = 'N/A';
+            volume.textContent = 'N/A';
+            dominance.textContent = 'BTC N/A% - ETH N/A%';
+            console.error(error);
+        })
+    }
+}
+
+function displayGlobalData(globalData){
+    coinsCount.textContent = globalData.active_cryptocurrencies || 'N/A';
+    exchangesCount.textContent = globalData.markets || 'N/A';
+
+    marketCap.textContent = globalData.total_market_cap?.usd ? `$${(globalData.total_market_cap.usd / 1e12).toFixed(3)}T` : 'N/A';
+    const marketCapChange = globalData.market_cap_change_percentage_24h_usd;
+
+    if(marketCapChange !== undefined){
+        const changeText = `${marketCapChange.toFixed(1)}%`;
+        marketCapChangeElement.innerHTML = `${changeText} <i class="${marketCapChange < 0 ? 'red' : 'green'} ri-arrow-${marketCapChange < 0 ? 'down' : 'up'}-s-fill"></i>`;
+        marketCapChangeElement.style.color = marketCapChange < 0 ? 'red' : 'green';
+    }else{
+        marketCapChangeElement.textContent = 'N/A';
+    }
+
+    volume.textContent = globalData.total_volume?.usd ? `$${(globalData.total_volume.usd / 1e9).toFixed(3)}B` : 'N/A';
+
+    const btcDominance = globalData.market_cap_percentage?.btc ? `${globalData.market_cap_percentage.btc.toFixed(1)}%` : 'N/A';
+    const ethDominance = globalData.market_cap_percentage?.eth ? `${globalData.market_cap_percentage.eth.toFixed(1)}%` : 'N/A';
+    dominance.textContent = `BTC ${btcDominance} - ETH ${ethDominance}`;
+}
+
+
+function toggleSpinner(listId, spinnerId, show){
+    const listElement = document.getElementById(listId);
+    const spinnerElement = document.getElementById(spinnerId);
+
+    if(spinnerElement){
+        spinnerElement.style.display = show ? 'block' : 'none';
+    }
+    if(listElement){
+        listElement.style.display = show ? 'none' : 'block';
     }
 }
