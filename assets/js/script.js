@@ -18,7 +18,7 @@ function openTab(event, tabName){
     if(!tabDataLoaded[tabName]){
         switch (tabName){
             case 'tab1': 
-                fetchAndDisplay('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per-page=20&page=1&sparkline=true', ['asset-list'], displayAssets, tabName, 'Crypto_Data');
+                fetchAndDisplay('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true', ['asset-list'], displayAssets, tabName, 'Crypto_Data');
                 break;
             case 'tab2':
                 fetchAndDisplay('https://api.coingecko.com/api/v3/exchanges', ['exchange-list'], displayExchanges, tabName, 'Exchange_Data');
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchData(){
     await Promise.all([
         fetchAndDisplay('https://api.coingecko.com/api/v3/search/trending', ['coins-list', 'nfts-list'], displayTrends, null, 'Trending_Data'),
-        fetchAndDisplay('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per-page=20&page=1&sparkline=true', ['asset-list'], displayAssets, null, 'Crypto_Data'),
+        fetchAndDisplay('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per-page=20&page=1&sparkline=true', ['asset-list'], displayTrendCoins, null, 'Crypto_Data'),
     ])
 }
 
@@ -94,4 +94,116 @@ function displayTrends(data){
     displayTrendCoins(data.coins.slice(0, 5));
     displayTrendNfts(data.nfts.slice(0, 5));
 
+}
+
+function displayTrendCoins(coins){
+    const coinsList = document.getElementById('coins-list');
+    coinsList.innerHTML = '';
+    const table = createTable(['Coin', 'Price', 'Market Cap', 'Volume', '24H%']);
+
+    coins.forEach(coin => {
+        const coinData = coin.item;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="name-column table-fixed-column"><img
+            src="${coinData.thumb}" alt="${coinData.name}">${coinData.name}
+            <span>(${coinData.symbol.toUpperCase()})</span></td>
+            <td>$${parseFloat(coinData.price_btc).toFixed(6)}</td>
+            <td>$${coinData.data.market_cap}</td>
+            <td>$${coinData.data.total_volume}</td>
+            <td class="${coinData.data.price_change_percentage_24h.usd >= 0 ? 'green' : 'red'}">${coinData.data.price_change_percentage_24h.usd.toFixed(2)}%</td>
+        `;
+        row.onclick = () => window.location.href = `../../pages/coin.html?coin=${coinData.id}`;
+        table.appendChild(row);
+    });
+    coinsList.appendChild(table);
+}
+
+function displayTrendNfts(nfts){
+    const nftsList = document.getElementById('nfts-list');
+    nftsList.innerHTML = '';
+    const table = createTable(['NFT', 'Market', 'Price', '24H Vol', '24H%']);
+
+    nfts.forEach(nft => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="name-column table-fixed-column"><img
+            src="${nft.thumb}" alt="${nft.name}">${nft.name}
+            <span>(${nft.symbol.toUpperCase()})</span></td>
+            <td>$${nft.native_currency_symbol.toUpperCase()}</td>
+            <td>$${nft.data.floor_price}</td>
+            <td>$${nft.data.h24_volume}</td>
+            <td class="${parseFloat(nft.data.floor_price_in_usd_24h_percentage_change) >= 0 ? 'green' : 'red'}">${parseFloat(nft.data.floor_price_in_usd_24h_percentage_change).toFixed(2)}%</td>
+        `;
+        table.appendChild(row);
+    });
+    nftsList.appendChild(table);
+}
+
+function displayAssets(data){
+    const cryptoList = document.getElementById('asset-list');
+    cryptoList.innerHTML = '';
+    const table = createTable(['Rank', 'Coin', 'Price', '24H Price', '24H Price %', 'Total Vol', 'Market Cap', 'Last 7 Days'], 1);
+
+    const sparklineData = [];
+    data.forEach(asset => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+        <td class="rank">${asset.market_cap_rank}</td>
+        <td class="name-column table-fixed-column"><img src="${asset.image}" 
+        alt="${asset.name}">${asset.name} <span>(${asset.symbol.toUpperCase()})</span></td>
+        <td>$${asset.current_price.toFixed(2)}</td>
+        <td class="${asset.price_change_percentage_24h >= 0 ? 'green' : 'red'}">$${asset.price_change_24h.toFixed(2)}</td>
+        <td class="${asset.price_change_percentage_24h >= 0 ? 'green' : 'red'}">${asset.price_change_percentage_24h.toFixed(2)}%</td>
+        <td>$${asset.total_volume.toLocaleString()}</td>
+        <td>$${asset.market_cap.toLocaleString()}</td>
+        <td><canvas id="chart-${asset.id}" width="100" height="50"></canvas></td>
+        `;
+        table.appendChild(row);
+        sparklineData.push({
+            id: asset.id,
+            sparkline: asset.sparkline_in_7d.price,
+            color: asset.sparkline_in_7d.price[0] <= asset.sparkline_in_7d.price[asset.sparkline_in_7d.price.length -1] ? 'green' : 'red'
+        });
+        row.onclick = () => window.location.href = `../../pages/coin.html?coin=${coinData.id}`;
+    });
+    cryptoList.appendChild(table);
+
+    sparklineData.forEach(({ id, sparkline, color}) => {
+        const ctx = document.createElement(`chart-${id}`).getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sparkline.map((_, index) => index),
+                datasets: [
+                    {
+                        data: sparkline,
+                        borderColor: color,
+                        fill: false,
+                        pointRadius: 0,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y:{
+                        display: false
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                }
+            }
+        });
+    });
 }
