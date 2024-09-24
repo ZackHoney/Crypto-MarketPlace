@@ -29,3 +29,5 @@ function initializeWidget(){
     const widgetConfig = getThemeConfig();
     createWidget('chart-widget', widgetConfig, 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js');
 }
+
+initializeWidget();
