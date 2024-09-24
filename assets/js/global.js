@@ -42,11 +42,20 @@ document.addEventListener("DOMContentLoaded", () =>{
         }
     }
 
+    const form = document.getElementById('searchForm');
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const query = document.getElementById('searchInput').value.trim();
+        if(!query) return;
+
+        window.location.href = `/../../pages/search.html?query=${query}`;
+    });
 
     fetchGlobal();
 });
 
-// Read data from localstorage bu if ?
+// Read data from localstorage but if ?
 function getLocalStorageData(key){
     const storedData = localStorage.getItem(key);
     if(!storedData) return null;
