@@ -47,16 +47,16 @@ function fetchSearchResult(param, idsToToggle){
         })
         .then(data => {
             let coins = (data.coins || []).filter(coin => coin.thumb !== 'missing_thumb.png');
-            let exchanges = (data.exchanges || []).filter(exchange => exchange.thumb !== 'missing_thumb.png');
+            let exchanges = (data.exchanges || []).filter(ex => ex.thumb !== 'missing_thumb.png');
             let nfts = (data.nfts || []).filter(nft => nft.thumb !== 'missing_thumb.png');
 
             const coinsCount = coins.length;
-            const exhcangesCount = exchanges.length;
+            const exchangesCount = exchanges.length;
             const nftsCount = nfts.length;
 
-            let minCount = Math.min(coinsCount, exhcangesCount, nftsCount);
+            let minCount = Math.min(coinsCount, exchangesCount, nftsCount);
 
-            if(coinsCount > 0 && exchangesCount > 0 && nftsCount > 0){
+            if(coinsCount > 0 && exchangesCount > 0 & nftsCount > 0){
                 coins = coins.slice(0, minCount);
                 exchanges = exchanges.slice(0, minCount);
                 nfts = nfts.slice(0, minCount);
@@ -92,6 +92,55 @@ function coinsResult(coins){
     coinsList.innerHTML = '';
 
     const table = createTable([
-        
-    ])
+        'Rank', 'Coin'
+    ]);
+
+    coins.forEach(coin => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${coin.market_cap_rank}</td>
+            <td class="name-column"><img src="${coin.thumb}" alt="${coin.name}"> ${coin.name} <span>(${coin.symbol.toUpperCase()})</span></td>
+        `;
+        table.appendChild(row);
+        row.onclick = () => {
+            window.location.href = `../../pages/coin.html?coin="${coin.id}"`;
+        };
+    });
+    coinsList.appendChild(table);
+}
+
+function exchangesResult(exchanges){
+    exchangesList.innerHTML = '';
+
+    const table = createTable([
+        'Exchange', 'Market'
+    ]);
+
+    exchanges.forEach(ex => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="name-column"><img src="${ex.thumb}" alt="${ex.name}">${ex.name}</td>
+            <td>${ex.market_type}</td>
+        `;
+        table.appendChild(row);
+    });
+    exchangesList.appendChild(table);
+}
+
+function nftsResult(nfts){
+    nftsList.innerHTML = '';
+
+    const table = createTable([
+        'NFT', 'Symbol'
+    ]);
+
+    nfts.forEach(nft => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="name-column"><img src="${nft.thumb}" alt="${nft.name}">${nft.name}</td>
+            <td class="name-column">${nft.symbol}</td>
+        `;
+        table.appendChild(row);
+    });
+    nftsList.appendChild(table);
 }

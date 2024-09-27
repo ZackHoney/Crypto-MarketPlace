@@ -26,6 +26,10 @@ document.addEventListener("DOMContentLoaded", () =>{
             localStorage.setItem('theme', 'light-theme');
             updateIcon('light-theme');
         }
+        
+        if (typeof initializeWidget === 'function'){
+            initializeWidget(); 
+        }
     });
 
     function updateIcon(currentTheme){
@@ -35,11 +39,8 @@ document.addEventListener("DOMContentLoaded", () =>{
         }else{
             themeToggle.classList.add('ri-moon-line');
             themeToggle.classList.remove('ri-sun-line');
-
         }
-        if(typeof initializeWidget === 'function'){
-            initializeWidget(); 
-        }
+        
     }
 
     const form = document.getElementById('searchForm');
