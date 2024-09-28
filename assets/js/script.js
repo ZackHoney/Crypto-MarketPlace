@@ -167,7 +167,7 @@ function displayAssets(data){
             sparkline: asset.sparkline_in_7d.price,
             color: asset.sparkline_in_7d.price[0] <= asset.sparkline_in_7d.price[asset.sparkline_in_7d.price.length -1] ? 'green' : 'red'
         });
-        row.onclick = () => window.location.href = `../../pages/coin.html?coin=${coinData.id}`;
+        row.onclick = () => window.location.href = `../../pages/coin.html?coin=${asset.id}`;
     });
     cryptoList.appendChild(table);
 
