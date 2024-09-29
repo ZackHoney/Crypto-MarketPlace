@@ -90,7 +90,7 @@ function initializeWidget(){
     widgetConfig1.colorTheme = themeConfig.theme;
     widgetConfig2.colorTheme = themeConfig.theme;
     widgetConfig2.backgroundColor = themeConfig.backgroundColor;
-    widgetConfig2.gridLineColor = themeConfig.gridLineColor;
+    widgetConfig2.gridLineColor = themeConfig.gridColor;
 
     createWidget('ticker-widget', widgetConfig1,'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js');
     createWidget('mini-chart-widget', widgetConfig2, 'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js')
@@ -152,19 +152,19 @@ function displayCoinInfo(coin){
                     <div class="container">
                         <div class="item">
                             <p class="str">ATH</p>
-                            <p class="num">$73,738.000</p>
+                            <p class="num">$${coin.market_data.ath.usd != null ? coin.market_data.ath.usd.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3}) : 'N/A'}</p>
                         </div>
                         <div class="item">
                             <p class="str">ATL</p>
-                            <p class="num">$67.810</p>
+                            <p class="num">$${coin.market_data.atl.usd != null ? coin.market_data.atl.usd.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 }): 'N/A'}</p>
                         </div>
                         <div class="item">
                             <p class="str">24H High</p>
-                            <p class="num">$65,505.000</p>
+                            <p class="num">$${coin.market_data.high_24h.usd != null ? coin.market_data.high_24h.usd.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3}) : "N/A"}</p>
                         </div>
                         <div class="item">
                             <p class="str">24H Low</p>
-                            <p class="num">$65,505.000</p>
+                            <p class="num">$${coin.market_data.low_24h.usd != null ? coin.market_data.low_24h.usd.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3}) : "N/A"}</p>
                         </div>
                     </div>
                 </div>
@@ -173,24 +173,24 @@ function displayCoinInfo(coin){
                     <h3>Markets</h3>
                     <div class="container">
                         <div class="item">
-                            <p class="str">Binance</p>
+                            <p class="str">${coin.tickers[0].market.name.replace('Exchange', '')}</p>
                             <div class="links">
-                                <a href="https://www.binance.com/en/trade/BTC_USDT">Trade</a>
-                                <p style="background-color: green">Trust: green</p>
+                                <a href="${coin.tickers[0].trade_url}">Trade</a>
+                                <p style="background-color: ${coin.tickers[0].trust_score}">Trust: ${coin.tickers[0].trust_score}</p>
                             </div>
                         </div>
                         <div class="item">
-                            <p class="str">Coinbase</p>
+                            <p class="str">${coin.tickers[1].market.name.replace('Exchange', '')}</p>
                             <div class="links">
-                                <a href="https://www.coinbase.com/advanced-trade/spot/BTC-USD">Trade</a>
-                                <p style="background-color: green;">Trust: green</p>
+                                <a href="${coin.tickers[1].trade_url}">Trade</a>
+                                <p style="background-color: ${coin.tickers[1].trust_score}">Trust: ${coin.tickers[1].trust_score}</p>
                             </div>
                         </div>
                         <div class="item">
-                            <p class="str">Kraken</p>
+                            <p class="str">${coin.tickers[2].market.name.replace('Exchange', '')}</p>
                             <div class="links">
-                                <a href="https://pro.kraken.com/app/trade/BTC-USD">Trade</a>
-                                <p style="background-color: green;">Trust: green</p>
+                                <a href="${coin.tickers[2].trade_url}">Trade</a>
+                                <p style="background-color: ${coin.tickers[2].trust_score}">Trust: ${coin.tickers[2].trust_score}</p>
                             </div>
                         </div>
                     </div>
@@ -202,22 +202,32 @@ function displayCoinInfo(coin){
                         <div class="item">
                             <p class="str">Website</p>
                             <div class="links">
-                                <a target="_blank" href="http://www.bitcoin.org">Visit</a>
-                                <a target="_blank" href="https://bitcoin.org/bitcoin.pdf">Whitepaper</a>
+                                <a target="_blank" href="${coin.links.homepage}">Visit</a>
+                                <a target="_blank" href="${coin.links.whitepaper}">Whitepaper</a>
                             </div>
                         </div>
                         <div class="item">
                             <p class="str">Community</p>
                             <div class="links">
-                                <a target="_blank" href="https://x.com/bitcoin">Twitter</a>
-                                <a target="_blank" href="https://facebook.com/bitcoins">Facebook</a>
+                                <a target="_blank" href="https://x.com/${coin.links.twitter_screen_name}">Twitter</a>
+                                <a target="_blank" href="https://facebook.com/${coin.links.facebook_username}">Facebook</a>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>        
+    `;
 
-            </div>
+    coinDesc.innerHTML = coin.description.en || '<p class="red">Asset descriptioin not available!</p>'
 
-        
-    `
+}
+
+function getThemeConfig(){
+    const root = getComputedStyle(document.documentElement);
+    const isDarkTheme = localStorage.getItem('theme') === 'light-theme' ? false : true;
+
+    return {
+        theme: isDarkTheme ? 'dark' : 'light',
+        backgroundColor: root.getPropertyValue(isDarkTheme ? '--chart-dark-bg' : '--chart-light-bg').trim(),
+        gridColor: root.getPropertyValue(isDarkTheme ? '--chart-dark-border' : '--chart-light-border').trim()
+    }
 }
