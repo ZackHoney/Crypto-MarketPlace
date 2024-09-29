@@ -217,7 +217,7 @@ function displayCoinInfo(coin){
                 </div>        
     `;
 
-    coinDesc.innerHTML = coin.description.en || '<p class="red">Asset descriptioin not available!</p>'
+    coinDesc.innerHTML = coin.description.en || '<p class="red">Asset description not available!</p>'
 
 }
 
