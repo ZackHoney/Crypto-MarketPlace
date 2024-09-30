@@ -91,14 +91,6 @@ table tr td{
     white-space: nowrap;
 }
 
-table tr td img{
-    width: 32px;
-    height: 32px;
-    vertical-align: middle;
-    margin-right: 6px;
-    border-radius: 12px;
-}
-
 table tr td:first-child{
     border-radius: 12px 0 0 12px;
 }
@@ -116,6 +108,14 @@ table tr td.name-column{
     overflow: hidden;
     text-overflow: ellipsis;
     padding-right: 30px;
+}
+
+table tr td img{
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin-right: 6px;
+    border-radius: 12px;
 }
 
 body{
@@ -706,4 +706,51 @@ footer .social-icons a i{
 
 .coin-desc p a{
     color: var(--links-color);
+}
+
+@media screen and (max-width: 1400px) {
+
+    .coin-container{
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .coin-container .left-section{
+        width: 38%;
+    }
+
+    .coin-container .main-section{
+        width: 59%;
+    }
+
+    .coin-container .right-section{
+        flex-direction: row;
+        width: 100%;
+        gap: 20px;
+    }
+
+    .coin-container .right-section .status{
+        width: 33%;
+    }
+
+    .coin-container .right-section .status > h3,
+    .coin-container .right-section .status:first-child > h3{
+        margin: 30px 0 20px;
+    }
+    
+}
+
+@media screen and (max-width: 1200px){
+
+    nav .right-section{
+        width: 40%; 
+    }
+
+    .coins .container,
+    .nfts .container,
+    .tab-content #asset-list,
+    .tab-content #exchange-list{
+        overflow-x: scroll;
+    }
+
 }
