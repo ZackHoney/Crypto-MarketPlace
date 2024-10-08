@@ -53,6 +53,24 @@ document.addEventListener("DOMContentLoaded", () =>{
         window.location.href = `/../../pages/search.html?query=${query}`;
     });
 
+    const openMenuBtn = document.getElementById('openMenu');
+    const overlay = document.querySelector('.overlay');
+    const closeMenuBtn = document.getElementById('closeMenu')
+
+    openMenuBtn.addEventListener('click', () => {
+        overlay.classList.add('show')
+    });
+
+    closeMenuBtn.addEventListener('click', () => {
+        overlay.classList.remove('show')
+    });
+
+    overlay.addEventListener('click', (e) => {
+        if(e.target === overlay){
+            overlay.classList.remove('show');
+        }
+    });
+
     fetchGlobal();
 });
 
